@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 /**
  * Created by Paul on 2018/8/11
  */
@@ -31,7 +32,6 @@ public class MybatisConfig {
     private static Logger log = LoggerFactory.getLogger(MybatisConfig.class);
     @Autowired
     DSProperties dp;
-
 
 
     @Bean(name = "sqlSessionFactory")
@@ -60,10 +60,11 @@ public class MybatisConfig {
         targetDataSources.put(DSType.write.getType(), dp.getWriteSource());
         List<DataSource> readlist = dp.getReadSourceList();
 
-        if (readlist==null && readlist.size()==0){
+        if (readlist == null && readlist.size() == 0) {
             throw new RuntimeException("请配置读数据库");
         }
         for (int i = 0; i < readlist.size(); i++) {
+            System.err.println("targetDataSources=" + DSType.read.getType() + i);
             targetDataSources.put(DSType.read.getType() + i, readlist.get(i));
         }
         final int readSize = readlist.size();

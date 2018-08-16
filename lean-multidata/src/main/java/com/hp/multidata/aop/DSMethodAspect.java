@@ -24,7 +24,7 @@ public class DSMethodAspect implements PriorityOrdered {
             "|| execution(* com.hp.multidata.service.*.list*(..))")
     public void setRead() {
         if (!DSType.write.getType().equals(DSThreadLocal.getCurrentType())) {
-            log.error("设置读 com.hp.multidata.service..*.*(..)");
+            System.err.println("设置读 com.hp.multidata.service..*.*(..)");
             DSThreadLocal.setRead();
         }
     }
@@ -35,7 +35,7 @@ public class DSMethodAspect implements PriorityOrdered {
             "|| execution(* com.hp.multidata.service.*.delete*(..)) ")
     public void setWriteDataSourceType() {
 
-        System.out.println("设置写 com.hp.multidata.service..*.*(..)");
+        System.err.println("设置写 com.hp.multidata.service..*.*(..)");
         DSThreadLocal.setWrite();
     }
 

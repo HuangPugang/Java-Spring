@@ -35,7 +35,7 @@ public class DSAnnotationAspect implements PriorityOrdered {
     public void setReadDataSourceType() {
         //如果已经开启写事务了，那之后的所有读都从写库读
         if (!DSType.write.getType().equals(DSThreadLocal.getCurrentType())) {
-            System.out.println("设置 读ReadSource");
+            System.err.println("设置 读ReadSource");
             DSThreadLocal.setRead();
         }
 
@@ -43,7 +43,7 @@ public class DSAnnotationAspect implements PriorityOrdered {
 
     @Before("chooseWriteType()")
     public void setWriteDataSourceType() {
-        System.out.println("设置写 数据连接池");
+        System.err.println("设置写 数据连接池");
         DSThreadLocal.setWrite();
     }
 

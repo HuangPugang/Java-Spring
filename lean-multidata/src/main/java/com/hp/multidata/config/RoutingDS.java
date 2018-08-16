@@ -32,6 +32,8 @@ public class RoutingDS extends AbstractRoutingDataSource {
         //读库， 简单负载均衡
         int number = count.getAndAdd(1);
         int lookupKey = number % readSize;
-        return DSType.read.getType() + (lookupKey + 1);
+        System.err.println("determineCurrentLookupKey=" + DSType.read.getType() + (lookupKey + 1));
+
+        return DSType.read.getType() + lookupKey;
     }
 }
