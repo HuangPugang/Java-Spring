@@ -1,10 +1,9 @@
-package com.hp.multidata.service;
+package com.hp.multidatatest.service;
 
 import com.hp.multidata.annotation.DSRead;
 import com.hp.multidata.annotation.DSWrite;
-import com.hp.multidata.data.mappers.UsersMapper;
-import com.hp.multidata.data.models.Users;
-import org.apache.ibatis.session.SqlSession;
+import com.hp.multidatatest.data.mappers.UsersMapper;
+import com.hp.multidatatest.data.models.Users;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ public class UsersService {
     UsersMapper usersMapper;
 
 
-    @DSRead
     public Users selectByPrimaryKey(Integer id) {
 
         Users users = new Users();

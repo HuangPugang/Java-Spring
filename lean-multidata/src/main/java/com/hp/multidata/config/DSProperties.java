@@ -1,14 +1,9 @@
 package com.hp.multidata.config;
 
-import org.apache.tomcat.jdbc.pool.PoolProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,8 +13,6 @@ import java.util.List;
 @ConfigurationProperties(prefix = "datasource")
 public class DSProperties {
 
-
-    Logger logger = LoggerFactory.getLogger(DSProperties.class);
     private Integer readSize;
 
     private Class<? extends DataSource> type;
@@ -271,63 +264,4 @@ public class DSProperties {
         }
     }
 
-    private DataSource writeSource;
-
-    public DataSource getWriteSource() {
-        if (writeSource == null) {
-            System.out.println("初始化数据源");
-            synchronized (DSProperties.class) {
-
-                if (writeSource != null) {
-                    return writeSource;
-                }
-                if (write == null) {
-                    throw new RuntimeException("请先配置写数据库");
-                }
-
-                PoolProperties p = DBHelper.buildPoolProperties(write);
-                p.setLogAbandoned(true);
-                p.setDefaultAutoCommit(true);
-                writeSource = new org.apache.tomcat.jdbc.pool.DataSource(p) {
-                    @PreDestroy
-                    public void close() {
-                        super.close(true);
-                    }
-                };
-            }
-        }
-        return writeSource;
-    }
-
-
-    private List<DataSource> readSourceList;
-
-    public List<DataSource> getReadSourceList() {
-        if (readSourceList == null) {
-
-            synchronized (DSProperties.class) {
-                if (readSourceList != null) {
-                    return readSourceList;
-                }
-
-                readSourceList = new ArrayList<>();
-                if (reads == null || reads.size() == 0) {
-                    throw new RuntimeException("请先配置读数据库");
-                }
-                for (int i = 0; i < reads.size(); i++) {
-                    PoolProperties p = DBHelper.buildPoolProperties(reads.get(i));
-                    p.setLogAbandoned(true);
-                    p.setDefaultAutoCommit(true);
-
-                    readSourceList.add(new org.apache.tomcat.jdbc.pool.DataSource(p) {
-                        @PreDestroy
-                        public void close() {
-                            super.close(true);
-                        }
-                    });
-                }
-            }
-        }
-        return readSourceList;
-    }
 }

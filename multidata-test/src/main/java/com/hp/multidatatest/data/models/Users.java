@@ -1,4 +1,4 @@
-package com.hp.multidata.data.models;
+package com.hp.multidatatest.data.models;
 
 public class Users {
     private Integer id;

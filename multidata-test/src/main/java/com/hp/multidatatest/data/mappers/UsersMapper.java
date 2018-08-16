@@ -1,7 +1,7 @@
-package com.hp.multidata.data.mappers;
+package com.hp.multidatatest.data.mappers;
 
-import com.hp.multidata.data.models.Users;
-import org.apache.ibatis.annotations.Mapper;
+
+import com.hp.multidatatest.data.models.Users;
 
 public interface UsersMapper {
     int deleteByPrimaryKey(Integer id);

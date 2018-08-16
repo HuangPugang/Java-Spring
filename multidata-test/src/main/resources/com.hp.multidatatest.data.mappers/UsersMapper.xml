@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hp.multidata.data.mappers.UsersMapper">
-    <resultMap id="BaseResultMap" type="com.hp.multidata.data.models.Users">
+<mapper namespace="com.hp.multidatatest.data.mappers.UsersMapper">
+    <resultMap id="BaseResultMap" type="com.hp.multidatatest.data.models.Users">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="userpass" jdbcType="VARCHAR" property="userpass"/>
@@ -19,13 +19,13 @@
     delete from users
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.hp.multidata.data.models.Users">
+    <insert id="insert" parameterType="com.hp.multidatatest.data.models.Users">
     insert into users (id, username, userpass
       )
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{userpass,jdbcType=VARCHAR}
       )
   </insert>
-    <insert id="insertSelective" parameterType="com.hp.multidata.data.models.Users">
+    <insert id="insertSelective" parameterType="com.hp.multidatatest.data.models.Users">
         insert into users
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -50,7 +50,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.hp.multidata.data.models.Users">
+    <update id="updateByPrimaryKeySelective" parameterType="com.hp.multidatatest.data.models.Users">
         update users
         <set>
             <if test="username != null">
@@ -62,7 +62,7 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.hp.multidata.data.models.Users">
+    <update id="updateByPrimaryKey" parameterType="com.hp.multidatatest.data.models.Users">
     update users
     set username = #{username,jdbcType=VARCHAR},
       userpass = #{userpass,jdbcType=VARCHAR}

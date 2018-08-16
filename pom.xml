@@ -6,7 +6,12 @@
 
     <groupId>com.hp</groupId>
     <artifactId>lean</artifactId>
+    <packaging>pom</packaging>
     <version>1.0</version>
+    <modules>
+        <module>multidata</module>
+        <module>multidata-test</module>
+    </modules>
 
 
 </project>

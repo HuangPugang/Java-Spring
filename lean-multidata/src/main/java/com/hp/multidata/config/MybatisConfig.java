@@ -2,6 +2,7 @@ package com.hp.multidata.config;
 
 import com.hp.multidata.utils.SpringContext;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.tomcat.jdbc.pool.PoolProperties;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -16,8 +17,10 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +35,10 @@ public class MybatisConfig {
     private static Logger log = LoggerFactory.getLogger(MybatisConfig.class);
     @Autowired
     DSProperties dp;
+
+    private DataSource writeSource;
+
+    private List<DataSource> readSourceList;
 
 
     @Bean(name = "sqlSessionFactory")
@@ -51,28 +58,68 @@ public class MybatisConfig {
         }
     }
 
+    private void initWriteDataSource() {
+        if (dp.getWrite() == null) {
+            throw new RuntimeException("请先配置写数据库");
+        }
+        System.err.println("初始化写数据源");
+        PoolProperties p = DBHelper.buildPoolProperties(dp.getWrite());
+        p.setLogAbandoned(true);
+        p.setDefaultAutoCommit(true);
+        writeSource = new org.apache.tomcat.jdbc.pool.DataSource(p) {
+            @PreDestroy
+            public void close() {
+                super.close(true);
+            }
+        };
+    }
+
+    private void initReadDataSource() {
+        readSourceList = new ArrayList<>();
+        if (dp.getReads() == null || dp.getReads().size() == 0) {
+            throw new RuntimeException("请先配置读数据库");
+        }
+        System.err.println("初始化读数据源");
+        for (int i = 0; i < dp.getReads().size(); i++) {
+            PoolProperties p = DBHelper.buildPoolProperties(dp.getReads().get(i));
+            p.setLogAbandoned(true);
+            p.setDefaultAutoCommit(true);
+            readSourceList.add(new org.apache.tomcat.jdbc.pool.DataSource(p) {
+                @PreDestroy
+                public void close() {
+                    super.close(true);
+                }
+            });
+        }
+    }
+
 
     @Bean(name = "roundRobinDataSourceProxy")
     public AbstractRoutingDataSource roundRobinDataSourceProxy() {
 
+        System.err.println("roundRobinDataSourceProxy");
+
+        initReadDataSource();
+
+        initWriteDataSource();
+
         Map<Object, Object> targetDataSources = new HashMap<Object, Object>();
 
-        targetDataSources.put(DSType.write.getType(), dp.getWriteSource());
-        List<DataSource> readlist = dp.getReadSourceList();
+        targetDataSources.put(DSType.write.getType(), writeSource);
 
-        if (readlist == null && readlist.size() == 0) {
+        if (readSourceList == null && readSourceList.size() == 0) {
             throw new RuntimeException("请配置读数据库");
         }
-        for (int i = 0; i < readlist.size(); i++) {
+        for (int i = 0; i < readSourceList.size(); i++) {
             System.err.println("targetDataSources=" + DSType.read.getType() + i);
-            targetDataSources.put(DSType.read.getType() + i, readlist.get(i));
+            targetDataSources.put(DSType.read.getType() + i, readSourceList.get(i));
         }
-        final int readSize = readlist.size();
+        final int readSize = readSourceList.size();
 
         //路由类，寻找对应的数据源
         AbstractRoutingDataSource proxy = new RoutingDS(readSize);
 
-        proxy.setDefaultTargetDataSource(dp.getWriteSource());//默认库
+        proxy.setDefaultTargetDataSource(writeSource);//默认库
         proxy.setTargetDataSources(targetDataSources);
         return proxy;
     }

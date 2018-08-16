@@ -1,4 +1,4 @@
-package com.hp.multidata;
+package com.hp.multidatatest;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.hp"})
-@MapperScan(basePackages = "com.hp.multidata.data.mappers")
+@MapperScan(basePackages = "com.hp.multidatatest.data.mappers")
 @EnableTransactionManagement(order = 10)
 public class Application {
 

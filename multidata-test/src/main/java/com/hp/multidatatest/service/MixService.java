@@ -1,6 +1,6 @@
-package com.hp.multidata.service;
+package com.hp.multidatatest.service;
 
-import com.hp.multidata.data.models.Users;
+import com.hp.multidatatest.data.models.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

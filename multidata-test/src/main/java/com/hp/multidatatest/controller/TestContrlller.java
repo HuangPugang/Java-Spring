@@ -1,7 +1,7 @@
-package com.hp.multidata.controller;
+package com.hp.multidatatest.controller;
 
-import com.hp.multidata.service.MixService;
-import com.hp.multidata.service.UsersService;
+import com.hp.multidatatest.service.MixService;
+import com.hp.multidatatest.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
