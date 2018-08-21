@@ -20,7 +20,6 @@ public class DSTypeThreadLocal {
         return dsType;
     }
 
-
     public static void setRead() {
         dsType.set(DSType.read.getType());
     }
