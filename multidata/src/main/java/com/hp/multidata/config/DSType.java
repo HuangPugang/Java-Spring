@@ -1,6 +1,7 @@
 package com.hp.multidata.config;
 
 /**
+ * 数据源类型
  * Created by Paul on 2018/8/11
  */
 public enum DSType {

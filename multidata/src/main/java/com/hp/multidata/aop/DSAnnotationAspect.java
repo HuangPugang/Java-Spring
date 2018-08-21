@@ -1,6 +1,6 @@
 package com.hp.multidata.aop;
 
-import com.hp.multidata.config.DSThreadLocal;
+import com.hp.multidata.config.DSTypeThreadLocal;
 import com.hp.multidata.config.DSType;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -12,6 +12,11 @@ import org.springframework.stereotype.Component;
 
 
 /**
+ *
+ * 切面第二执行
+ * DSWrite和DSRead 切面
+ * {@link com.hp.multidata.annotation.DSWrite}
+ * {@link com.hp.multidata.annotation.DSRead}
  * Created by Paul on 2018/8/11
  */
 @Aspect
@@ -34,9 +39,9 @@ public class DSAnnotationAspect implements PriorityOrdered {
     @Before("chooseReadType()")
     public void setReadDataSourceType() {
         //如果已经开启写事务了，那之后的所有读都从写库读
-        if (!DSType.write.getType().equals(DSThreadLocal.getCurrentType())) {
+        if (!DSType.write.getType().equals(DSTypeThreadLocal.getCurrentType())) {
             System.err.println("设置 读ReadSource");
-            DSThreadLocal.setRead();
+            DSTypeThreadLocal.setRead();
         }
 
     }
@@ -44,7 +49,7 @@ public class DSAnnotationAspect implements PriorityOrdered {
     @Before("chooseWriteType()")
     public void setWriteDataSourceType() {
         System.err.println("设置写 数据连接池");
-        DSThreadLocal.setWrite();
+        DSTypeThreadLocal.setWrite();
     }
 
     @Override

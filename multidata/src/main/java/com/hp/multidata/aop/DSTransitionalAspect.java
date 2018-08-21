@@ -1,6 +1,6 @@
 package com.hp.multidata.aop;
 
-import com.hp.multidata.config.DSThreadLocal;
+import com.hp.multidata.config.DSTypeThreadLocal;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component;
 
 
 /**
+ *
+ * 切面最后执行
+ * 事务注解切面
+ * {@link org.springframework.transaction.annotation.Transactional}
  * Created by Paul on 2018/8/11
  */
 @Aspect
@@ -29,7 +33,7 @@ public class DSTransitionalAspect implements PriorityOrdered {
     @Before("chooseWriteType()")
     public void setWriteDataSourceType() {
         System.out.println("事务设置写 数据连接池");
-        DSThreadLocal.setWrite();
+        DSTypeThreadLocal.setWrite();
     }
 
     @Override

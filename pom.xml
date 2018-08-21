@@ -11,6 +11,8 @@
     <modules>
         <module>multidata</module>
         <module>multidata-test</module>
+        <module>hessian-client</module>
+        <module>hessian-server</module>
     </modules>
 
 

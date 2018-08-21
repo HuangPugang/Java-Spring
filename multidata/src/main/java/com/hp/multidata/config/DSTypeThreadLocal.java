@@ -6,36 +6,37 @@ import org.springframework.util.StringUtils;
 
 
 /**
+ * 数据源类型本地变量
  * Created by Paul on 2018/8/11
  */
-public class DSThreadLocal {
+public class DSTypeThreadLocal {
 
-    private static Logger log = LoggerFactory.getLogger(DSThreadLocal.class);
+    private static Logger log = LoggerFactory.getLogger(DSTypeThreadLocal.class);
 
     //线程本地环境
-    private static final ThreadLocal<String> local = new ThreadLocal<String>();
+    private static final ThreadLocal<String> dsType = new ThreadLocal<String>();
 
     public static ThreadLocal<String> getLocal() {
-        return local;
+        return dsType;
     }
 
 
     public static void setRead() {
-        local.set(DSType.read.getType());
+        dsType.set(DSType.read.getType());
     }
 
     public static void setWrite() {
-        local.set(DSType.write.getType());
+        dsType.set(DSType.write.getType());
     }
 
     public static String getCurrentType() {
-        if (StringUtils.isEmpty(local.get())) {
+        if (StringUtils.isEmpty(dsType.get())) {
             return DSType.read.getType();
         }
-        return local.get();
+        return dsType.get();
     }
 
     public static void clear() {
-        local.remove();
+        dsType.remove();
     }
 }

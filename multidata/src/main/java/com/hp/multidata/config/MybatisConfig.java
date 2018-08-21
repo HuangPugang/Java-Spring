@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *
+ * 配置mybatis
  * Created by Paul on 2018/8/11
  */
 @Configuration
@@ -99,8 +101,10 @@ public class MybatisConfig {
 
         System.err.println("roundRobinDataSourceProxy");
 
+        //初始化读数据源
         initReadDataSource();
 
+        //初始化写数据源
         initWriteDataSource();
 
         Map<Object, Object> targetDataSources = new HashMap<Object, Object>();

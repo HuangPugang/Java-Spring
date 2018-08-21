@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 import java.util.List;
 
 /**
+ * 数据库属性
  * Created by Paul on 2018/8/11
  */
 @Configuration

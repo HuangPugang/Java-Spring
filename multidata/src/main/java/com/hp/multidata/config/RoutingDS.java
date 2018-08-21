@@ -5,6 +5,7 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 数据源路由
  * Created by Paul on 2018/8/11
  */
 public class RoutingDS extends AbstractRoutingDataSource {
@@ -19,7 +20,7 @@ public class RoutingDS extends AbstractRoutingDataSource {
     @Override
     protected Object determineCurrentLookupKey() {
 
-        String typeKey = DSThreadLocal.getCurrentType();
+        String typeKey = DSTypeThreadLocal.getCurrentType();
 
         if (typeKey == null) {
             return DSType.write.getType();
@@ -32,7 +33,6 @@ public class RoutingDS extends AbstractRoutingDataSource {
         //读库， 简单负载均衡
         int number = count.getAndAdd(1);
         int lookupKey = number % readSize;
-        System.err.println("determineCurrentLookupKey=" + DSType.read.getType() + (lookupKey + 1));
 
         return DSType.read.getType() + lookupKey;
     }

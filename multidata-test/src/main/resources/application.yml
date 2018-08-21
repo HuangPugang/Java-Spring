@@ -59,3 +59,24 @@ datasource:
      maxPoolPreparedStatementPerConnectionSize: 50
      removeAbandoned: true
      filters: stat
+  reads[2]:
+     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8
+     username: root
+     password:
+     driver-class-name: com.mysql.jdbc.Driver
+     minIdle: 5
+     maxActive: 100
+     initialSize: 10
+     maxWait: 60000
+     timeBetweenEvictionRunsMillis: 60000
+     minEvictableIdleTimeMillis: 300000
+     validationQuery: select 'x'
+     testWhileIdle: true
+     testOnBorrow: false
+     testOnReturn: false
+     poolPreparedStatements: true
+     maxPoolPreparedStatementPerConnectionSize: 50
+     removeAbandoned: true
+     filters: stat
+server:
+  port: 8011
