@@ -10,7 +10,8 @@ public class HessianClientApplication {
 	@Bean
 	public HessianProxyFactoryBean helloClient() {
 		HessianProxyFactoryBean factory = new HessianProxyFactoryBean();
-		factory.setServiceUrl("http://localhost:8090/HelloWorldService");
+//		factory.setServiceUrl("http://localhost:8093/HelloWorldService");
+		factory.setServiceUrl("http://localhost:8093/HelloWorldService");
 		factory.setServiceInterface(HelloWorldService.class);
 		factory.setOverloadEnabled(true);
 		return factory;

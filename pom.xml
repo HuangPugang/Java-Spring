@@ -13,6 +13,7 @@
         <module>multidata-test</module>
         <module>hessian-client</module>
         <module>hessian-server</module>
+        <module>netty-client</module>
     </modules>
 
 
